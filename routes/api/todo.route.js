@@ -4,6 +4,8 @@ const ToDoController = require('../../controllers/todo.controller');
 
 router.get('/', ToDoController.getTodos)
 
+router.get('/:id', ToDoController.getTodo);
+
 router.post('/', ToDoController.createTodo)
 
 router.put('/', ToDoController.updateTodo)

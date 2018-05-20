@@ -2,9 +2,16 @@ const ToDo = require('../models/todo.model')
 
 _this = this
 
+exports.getTodo = async function(id){   
+    try{
+        return await ToDo.findById(id);
+    } catch(e) {
+        throw Error("Error occured while finding the Todo");
+    }
+}
+
 exports.getTodos = async function(query, page, limit){
 
-    // Options for mongoose paginate
     const options = {
         page,
         limit
@@ -12,11 +19,8 @@ exports.getTodos = async function(query, page, limit){
     
     try {
         const todos = await ToDo.paginate(query, options)
-        
         return todos;
-
     } catch (e) {
-
         throw Error('Error while Paginating Todos')
     }
 }
@@ -31,29 +35,20 @@ exports.createTodo = async function(todo){
     })
 
     try{
-
-        // Saving the Todo 
-
         const savedTodo = await newTodo.save()
-
         return savedTodo;
     }catch(e){
-      
-        // return a Error message describing the reason     
-
-        throw Error("Error while Creating Todo")
+        throw Error("Error while creating Todo")
     }
 }
 
 exports.updateTodo = async function(todo){
     const id = todo.id
-
+    const oldTodo = null;
     try{
-        //Find the old Todo Object by the Id
-    
-        const oldTodo = await ToDo.findById(id);
+        oldTodo = await ToDo.findById(id);
     }catch(e){
-        throw Error("Error occured while Finding the Todo")
+        throw Error("Error occured while finding the Todo")
     }
 
     // If no old Todo Object exists return false
@@ -71,7 +66,7 @@ exports.updateTodo = async function(todo){
     console.log(oldTodo)
 
     try{
-        const savedTodo = await oldTodo.save()
+        const savedTodo = await oldTodo.save();
         return savedTodo;
     }catch(e){
         throw Error("And Error occured while updating the Todo");
@@ -81,12 +76,9 @@ exports.updateTodo = async function(todo){
 exports.deleteTodo = async function(id){
     
     try{
-        const deleted = await ToDo.remove({_id: id})
-        if(deleted.result.n === 0){
-            throw Error("Todo Could not be deleted")
-        }
-        return deleted
+        const deleted = await ToDo.remove({_id: id});
+        return deleted;
     }catch(e){
-        throw Error("Error Occured while Deleting the Todo")
+        throw Error("Error Occured while Deleting the Todo" + e);
     }
 }
