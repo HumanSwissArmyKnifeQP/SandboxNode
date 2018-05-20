@@ -8,4 +8,4 @@ MongoDB, Express, Angular, NodeJS
 Run `npm install`
 
 ## Running
-Run `npm start` or double click start-to-do-app.sh
+Run `npm start` -or- double-click `start-to-do-app.sh`
